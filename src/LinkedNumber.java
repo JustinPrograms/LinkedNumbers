@@ -15,6 +15,7 @@ public class LinkedNumber {
         DLNode<Digit> current = this.front;
         DLNode<Digit> nextNode = null;
         int i = 1;
+
         while (current != null) {
             try {
                 nextNode = new DLNode<>(new Digit(num.charAt(i)));
