@@ -159,42 +159,42 @@ public class LinkedNumber {
 
 
     public void addDigit(Digit digit, int position) {
-        if (position > this.getNumDigits() - 1) {
+        if (position > this.getNumDigits()|| position < 0) {
             throw new LinkedNumberException("invalid position");
         }
 
-        DLNode<Digit> current = this.front;
+        DLNode<Digit> current = this.rear;
         DLNode<Digit> newNode = new DLNode<>(digit);
 
-        if (position == 0) {
+        if (position == this.getNumDigits()) {
             this.front.setPrev(newNode);
             newNode.setNext(this.front);
             this.front = newNode;
         }
 
-        if (position == this.getNumDigits() - 1) {
+        else if (position == 0) {
             this.rear.setNext(newNode);
             newNode.setPrev(this.rear);
             this.rear = newNode;
         }
-
-        int counter = 0;
-        while (counter != position) {
-            current = current.getNext();
-            if (counter == position) {
-                current.getPrev().setNext(newNode);
-                current.setPrev(newNode);
+        else {
+            int counter = 0;
+            while (counter != position) {
+                current = current.getPrev();
+                counter++;
             }
-            counter++;
-
+            current.getNext().setPrev(newNode);
+            newNode.setNext(current.getNext());
+            newNode.setPrev(current);
+            current.setNext(newNode);
         }
 
 
     }
 
     public int removeDigit(int position) {
-        // make sure all cases considered
-        if (position > this.getNumDigits() - 1) {
+        // everything works but need to figure out the return statement
+        if (position > this.getNumDigits()|| position < 0) {
             throw new LinkedNumberException("invalid position");
         }
 
@@ -207,54 +207,24 @@ public class LinkedNumber {
             this.rear = newRear;
         }
 
-        if (position == this.getNumDigits() - 1) {
+        else if (position == this.getNumDigits() - 1) {
             DLNode<Digit> newFront = this.front.getNext();
             this.front.getNext().setPrev(null);
             this.front.setNext(null);
             this.front = newFront;
         }
 
-        int counter = 0;
-        while (counter != position) {
-            current = current.getPrev();
-            if (counter == position) {
-                current.getPrev().setNext(current.getNext());
-                current.getNext().setPrev(current.getPrev());
+        else {
+            int counter = 0;
+            while (counter != position) {
+                current = current.getPrev();
+                counter++;
             }
-            counter++;
 
+            current.getNext().setPrev(current.getPrev());
+            current.getPrev().setNext(current.getNext());
         }
-
-//        Note that the value being returned will be the decimal equivalent of the value
-//        regardless of the number system. For example, if we have binary number 1010
-//        and call removeDigit(1), the resulting linked list will represent binary number 100
-//        and the decimal number 2 will be returned (not the binary number 10).
-
-        // idk what to return ngl
         return 1;
-
-    }
-
-    public static void main(String[] args) {
-//
-//        LinkedNumber lnxx = new LinkedNumber("42069", 10);
-//        System.out.println("lnxx original = " + lnxx.toString());
-//        System.out.println("lnxx converted to base 2 = " + lnxx.convert(2));
-//        System.out.println("lnxx converted to back to base 10 = " + lnxx.convert(10));
-//        System.out.println("-------");
-//        LinkedNumber lnxx2 = new LinkedNumber("1010010001010101", 2);
-//        System.out.println("lnxx2 original = " + lnxx2.toString());
-//        System.out.println("lnxx2 converted to base 10 = " + lnxx2.convert(10));
-//        System.out.println("lnxx2 converted to back to base 2 = " + lnxx2.convert(2));
-
-
-
-//        LinkedNumber ln1 = new LinkedNumber("11101101", 2);
-//        LinkedNumber ln2 = new LinkedNumber("10210122", 3);
-//        LinkedNumber ln3 = new LinkedNumber("32133101", 4);
-//        ln1.convert(10).toString();
-//        ln2.convert(10).toString();
-//        ln3.convert(10).toString();
     }
 
 }
