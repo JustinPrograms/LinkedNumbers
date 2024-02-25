@@ -44,13 +44,9 @@ public class LinkedNumber {
         DLNode<Digit> current = this.front;
         while (current != null) {
             if (current.getElement().getValue() < new Digit('0').getValue()){
-               // System.out.println("here1");
                 return false;
             }
             if (current.getElement().getValue() > this.base-1) {
-                //System.out.println("here2");
-               // System.out.println(current.getElement().getValue());
-               // System.out.println(new Digit((char) this.base).getValue());
                 return false;
             }
             current = current.getNext();
@@ -110,9 +106,12 @@ public class LinkedNumber {
 
         if (this.base == 10) {
             newString = decimalToNewBase(newBase);
-         } //else if (newBase == 10) {
-//            newString = anyBaseToDecimal(newBase);
-//        }
+         } else if (newBase == 10) {
+            newString = anyBaseToDecimal();
+        } else {
+            LinkedNumber temp = new LinkedNumber(anyBaseToDecimal(), 10);
+            newString = temp.decimalToNewBase(newBase);
+        }
 
 
         return new LinkedNumber(newString, newBase);
@@ -135,17 +134,31 @@ public class LinkedNumber {
             decimalNum /= newBase;
         }
 
-        System.out.println(output.toString());
         return output.toString();
     }
 
-//    private String anyBaseToDecimal(int base) {
-//
-//    }
+    private String anyBaseToDecimal() {
+
+        String currNum = this.toString();
+        int total = 0;
+
+        for (int i = 0; i < this.getNumDigits(); i++) {
+            total += Integer.parseInt(String.valueOf(currNum.charAt(i))) * powerOf(this.base, this.getNumDigits() - 1 - i);
+        }
+        return String.valueOf(total);
+
+    }
+
+    private static int powerOf(int base, int exp) {
+        int res = 1;
+        for (int i = 0; i < exp; i++) {
+            res *= base;
+        }
+        return res;
+    }
 
 
     public void addDigit(Digit digit, int position) {
-        // make sure all cases considered
         if (position > this.getNumDigits() - 1) {
             throw new LinkedNumberException("invalid position");
         }
@@ -175,6 +188,7 @@ public class LinkedNumber {
             counter++;
 
         }
+
 
     }
 
@@ -221,20 +235,26 @@ public class LinkedNumber {
 
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
+//
+//        LinkedNumber lnxx = new LinkedNumber("42069", 10);
+//        System.out.println("lnxx original = " + lnxx.toString());
+//        System.out.println("lnxx converted to base 2 = " + lnxx.convert(2));
+//        System.out.println("lnxx converted to back to base 10 = " + lnxx.convert(10));
+//        System.out.println("-------");
+//        LinkedNumber lnxx2 = new LinkedNumber("1010010001010101", 2);
+//        System.out.println("lnxx2 original = " + lnxx2.toString());
+//        System.out.println("lnxx2 converted to base 10 = " + lnxx2.convert(10));
+//        System.out.println("lnxx2 converted to back to base 2 = " + lnxx2.convert(2));
+
+
+
 //        LinkedNumber ln1 = new LinkedNumber("11101101", 2);
 //        LinkedNumber ln2 = new LinkedNumber("10210122", 3);
 //        LinkedNumber ln3 = new LinkedNumber("32133101", 4);
-//        System.out.println(ln3.convert(10).toString());
-//        boolean b1 = ln1.convert(10).toString().equals("237");
-//        boolean b2 = ln2.convert(10).toString().equals("2771");
-//        boolean b3 = ln3.convert(10).toString().equals("59345");
-//        System.out.println("b1 = " + b1);
-//        System.out.println("b2 = " + b2);
-//        System.out.println("b3 = " + b3);
-
-        LinkedNumber lnTest = new LinkedNumber("2DC", 16);
-        lnTest.convert(10);
+//        ln1.convert(10).toString();
+//        ln2.convert(10).toString();
+//        ln3.convert(10).toString();
     }
 
 }
