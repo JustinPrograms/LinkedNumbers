@@ -1,3 +1,7 @@
+/**
+ * Constructs a LinkedNumber object with the given number and base.
+ * @author Justin Dhillon JDHILL94 251348823
+ */
 public class LinkedNumber {
 
     private int base; // base of the number
@@ -5,8 +9,6 @@ public class LinkedNumber {
     private DLNode<Digit> rear; // reference to the rear node of the linked list
 
     /**
-     * Constructs a LinkedNumber object with the given number and base.
-     *
      * @param num     the number to be represented
      * @param baseNum the base of the number
      */
